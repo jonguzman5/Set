@@ -1,15 +1,15 @@
 //
-//  Card.swift
+//  SetCard.swift
 //  Set
 //
-//  Created by ジョナサン on 9/22/20.
+//  Created by ジョナサン on 9/21/20.
 //  Copyright © 2020 ジョナサン. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class Card {
+class SetCard {
     var shape : Shapes
     var shade : Shades
     var color : Colors
@@ -27,7 +27,7 @@ class Card {
         case .circle:
             shape = "⬤"
         case .square:
-            shape = "■"
+            shape = "◼"
         }
         
         var content = ""
@@ -95,8 +95,8 @@ class Card {
     }
 }
 
-extension Card {
-    static func == (lhs: Card, rhs: Card) -> Bool {
+extension SetCard {
+    static func == (lhs: SetCard, rhs: SetCard) -> Bool {
         return (lhs.shape == rhs.shape) && (lhs.color == rhs.color) && (lhs.shade == rhs.shade) && (lhs.count == rhs.count)
     }
 }
