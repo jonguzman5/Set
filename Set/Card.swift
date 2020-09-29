@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Card {
+struct Card: Hashable {
     var shape : Shapes
     var shade : Shades
     var color : Colors
@@ -28,6 +28,14 @@ class Card {
             shape = "⬤"
         case .square:
             shape = "■"
+        case .diamond:
+            shape = "◆"
+        case .rectangle:
+            shape = "▮"
+        case .pentagon:
+            shape = "⬟"
+        case .hexagon:
+            shape = "⬣"
         }
         
         var content = ""
@@ -41,23 +49,23 @@ class Card {
         var strokeColor: UIColor
         
         switch self.color {
-        case .green:
-            strokeColor = UIColor.green
-        case .red:
-            strokeColor = UIColor.red
-        case .purple:
-            strokeColor = UIColor.purple
+            case .green:
+                strokeColor = UIColor.green
+            case .red:
+                strokeColor = UIColor.red
+            case .purple:
+                strokeColor = UIColor.purple
         }
         
         var foregroundColor = strokeColor
         
         switch self.shade {
-        case .outlined:
-            foregroundColor = foregroundColor.withAlphaComponent(0.0)
-        case .striped:
-            foregroundColor = foregroundColor.withAlphaComponent(0.3)
-        case .filled:
-            foregroundColor = foregroundColor.withAlphaComponent(1.0)
+            case .outlined:
+                foregroundColor = foregroundColor.withAlphaComponent(0.0)
+            case .striped:
+                foregroundColor = foregroundColor.withAlphaComponent(0.3)
+            case .filled:
+                foregroundColor = foregroundColor.withAlphaComponent(1.0)
         }
         
         let attributes: [NSAttributedString.Key: Any] = [
@@ -73,7 +81,11 @@ class Card {
         case triangle
         case circle
         case square
-        static var all = [Shapes.triangle, .circle, .square]
+        case diamond
+        case rectangle
+        case pentagon
+        case hexagon
+        static var all = [Shapes.triangle, .circle, .square, .diamond, .rectangle, .pentagon, .hexagon]
     }
     enum Shades {
         case outlined
