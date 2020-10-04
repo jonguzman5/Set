@@ -10,13 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Deck()
+    lazy var game = Game()
 
     override func viewDidLoad() {
+        //print("@viewcont: \(game.deck)")
         super.viewDidLoad()
         for index in cardButtons.indices {
             let button = cardButtons[index]
-            if let card = game.dealCard(){
+            if let card = game.deck.dealCard(){
+                button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
                 button.setTitle(card.contents(), for: UIControl.State.normal)
             }
         }
@@ -40,7 +42,7 @@ class ViewController: UIViewController {
     
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender){
-            //print("Card Number: \(cardNumber)")
+            print(cardNumber)
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
         }
@@ -52,22 +54,19 @@ class ViewController: UIViewController {
     func updateViewFromModel(){
         for index in cardButtons.indices {
             let button = cardButtons[index]
-            let card = game.deck[index]
+            let card = game.deck.deck[index]
             if card.isSelected {
-                button.backgroundColor = UIColor.systemGray5
-            }
-            else {
-                button.backgroundColor = UIColor.systemGray6
+                button.select()
                 if card.isMatched {
-                    button.setTitle("", for: UIControl.State.normal)
-                    button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+                    button.matchSelect()
                     scoreCount = game.score
-                }
-                else {
-                    button.backgroundColor = UIColor.systemGray6
-                    scoreCount = game.score
+                    //replace cards
+                    button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
+                    //reformat
+                    button.normalize()
                 }
             }
+            //else {if card.isMatched {} else {}}
         }
     }
     
@@ -83,7 +82,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func restart(_ sender: UIButton) {
-        
+        scoreCount = 0
+        for index in cardButtons.indices {
+            cardButtons[index].setAttributedTitle(game.deck.deck[index].attributedContents(), for: UIControl.State.normal)
+            cardButtons[index].deselect()
+        }
     }
     
 
@@ -100,5 +103,36 @@ extension Int {
         else {
             return 0
         }
+    }
+}
+
+extension UIButton {
+    func select() {
+        self.backgroundColor = UIColor.systemGray5
+        //self.layer.borderWidth = 3.0
+        //self.layer.borderColor = UIColor.green.cgColor
+    }
+    func matchSelect(){
+        self.backgroundColor = UIColor.systemGray5
+        self.layer.borderWidth = 3.0
+        self.layer.borderColor = UIColor.green.cgColor
+    }
+    func misMatchSelect(){
+        self.backgroundColor = UIColor.systemGray5
+        self.layer.borderWidth = 3.0
+        self.layer.borderColor = UIColor.red.cgColor
+    }
+    func deselect(){
+        self.backgroundColor = UIColor.systemGray6
+        //self.layer.borderWidth = 3.0
+        //self.layer.borderColor = UIColor.green.cgColor
+    }
+    func deselectAll(){
+        
+    }
+    func normalize(){
+        self.backgroundColor = UIColor.systemGray6
+        self.layer.borderWidth = 0
+        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
     }
 }

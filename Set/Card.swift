@@ -25,7 +25,7 @@ struct Card: Hashable {
         case .triangle:
             shape = "▲"
         case .circle:
-            shape = "⬤"
+            shape = "●"
         case .square:
             shape = "■"
         case .diamond:
