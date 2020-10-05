@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Game()
+    lazy var game = Game.sharedInstance
 
     override func viewDidLoad() {
         //print("@viewcont: \(game.deck)")
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
             let button = cardButtons[index]
             if let card = game.deck.dealCard(){
                 button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
-                button.setTitle(card.contents(), for: UIControl.State.normal)
+                //button.setTitle(card.contents(), for: UIControl.State.normal)
             }
         }
         for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
@@ -84,12 +84,17 @@ class ViewController: UIViewController {
     @IBAction func restart(_ sender: UIButton) {
         scoreCount = 0
         for index in cardButtons.indices {
-            cardButtons[index].setAttributedTitle(game.deck.deck[index].attributedContents(), for: UIControl.State.normal)
-            cardButtons[index].deselect()
+            let button = cardButtons[index]
+            if let card = game.deck.dealCard(){
+                button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
+                button.deselect()
+            }
+        }
+        for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
+            let button = cardButtons[index]
+            button.isHidden = true
         }
     }
-    
-
 }
 
 extension Int {
@@ -109,8 +114,6 @@ extension Int {
 extension UIButton {
     func select() {
         self.backgroundColor = UIColor.systemGray5
-        //self.layer.borderWidth = 3.0
-        //self.layer.borderColor = UIColor.green.cgColor
     }
     func matchSelect(){
         self.backgroundColor = UIColor.systemGray5
@@ -124,12 +127,8 @@ extension UIButton {
     }
     func deselect(){
         self.backgroundColor = UIColor.systemGray6
-        //self.layer.borderWidth = 3.0
-        //self.layer.borderColor = UIColor.green.cgColor
     }
-    func deselectAll(){
-        
-    }
+    //func deselectAll(){}
     func normalize(){
         self.backgroundColor = UIColor.systemGray6
         self.layer.borderWidth = 0
