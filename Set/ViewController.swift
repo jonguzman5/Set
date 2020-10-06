@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Game.sharedInstance
+    var game = Game.sharedInstance
 
     override func viewDidLoad() {
         //print("@viewcont: \(game.deck)")

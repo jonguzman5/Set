@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Deck {
+class Deck {
     var deck = [Card]()
 
     func count() -> Int {
@@ -19,7 +19,7 @@ struct Deck {
         return deck.count == 0 ? true : false
     }
 
-    mutating func dealCard() -> Card? {
+    func dealCard() -> Card? {
         return self.isEmpty() ? nil : deck.remove(at: 0)
     }
 

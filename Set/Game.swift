@@ -55,7 +55,8 @@ class Game {
     //var start1 = -2
     //var start2 = -1
     func chooseCard(at index: Int){
-        //print("@game: \(deck)")
+        //print("@game: \(deck.deck)")
+        //print("@game: \(Game.sharedInstance)")
         assert(deck.deck.indices.contains(index), "Deck.chooseCard(at: \(index)): Chosen index is not valid")
         if !deck.deck[index].isMatched {
             if indicesOfSelectedCards!.count == 2 {
@@ -70,45 +71,42 @@ class Game {
                     print("\(deck.deck[index].color)")
                     print("got 1st & 2nd")
                     /******************Set Game Rules Start******************/
-/*
-                    if colorMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                        && shapeMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                    if
+                        (
+                        shapeMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && colorMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
                         && countMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                        && !shadeMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && shadeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        )
+                        ||
+                        (
+                        shapeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && colorMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && countMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && shadeMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        )
+                        ||
+                        (
+                        shapeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && colorMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && countMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        && shadeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
+                        )
                     {
                         deck.deck[firstSelectedCard].isMatched = true
                         deck.deck[secondSelectedCard].isMatched = true
                         deck.deck[index].isMatched = true
                         score += 3
                     }
-                    else if shapeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    && colorMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    && countMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    && shadeMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    {
-                        deck.deck[firstSelectedCard].isMatched = true
-                        deck.deck[secondSelectedCard].isMatched = true
-                        deck.deck[index].isMatched = true
-                        score += 3
-                    }
-                    else if shapeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    && colorMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    && countMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    && shadeMisMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index])
-                    {
-                        deck.deck[firstSelectedCard].isMatched = true
-                        deck.deck[secondSelectedCard].isMatched = true
-                        deck.deck[index].isMatched = true
-                        score += 3
-                    }
-*/
                     /******************Set Game Rules End******************/
+/*
                     if !colorMatch(a: deck.deck[firstSelectedCard], b: deck.deck[secondSelectedCard], c: deck.deck[index]){
                         deck.deck[firstSelectedCard].isMatched = true
                         deck.deck[secondSelectedCard].isMatched = true
                         deck.deck[index].isMatched = true
                         score += 3
                     }
+*/
                     else {
                         deck.deck[firstSelectedCard].isMatched = false
                         deck.deck[secondSelectedCard].isMatched = false

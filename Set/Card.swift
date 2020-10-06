@@ -28,14 +28,14 @@ struct Card: Hashable {
             shape = "●"
         case .square:
             shape = "■"
-        case .diamond:
-            shape = "◆"
-        case .rectangle:
-            shape = "▮"
-        case .pentagon:
-            shape = "⬟"
-        case .hexagon:
-            shape = "⬣"
+//        case .diamond:
+//            shape = "◆"
+//        case .rectangle:
+//            shape = "▮"
+//        case .pentagon:
+//            shape = "⬟"
+//        case .hexagon:
+//            shape = "⬣"
         }
         
         var content = ""
@@ -81,11 +81,11 @@ struct Card: Hashable {
         case triangle
         case circle
         case square
-        case diamond
-        case rectangle
-        case pentagon
-        case hexagon
-        static var all = [Shapes.triangle, .circle, .square, .diamond, .rectangle, .pentagon, .hexagon]
+//        case diamond
+//        case rectangle
+//        case pentagon
+//        case hexagon
+        static var all = [Shapes.triangle, .circle, .square]//.diamond, .rectangle, .pentagon, .hexagon]
     }
     enum Shades {
         case outlined
