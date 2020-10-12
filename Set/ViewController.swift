@@ -10,16 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var game = Game.sharedInstance
+    var game = Game()
 
     override func viewDidLoad() {
-        //print("@viewcont: \(game.deck)")
         super.viewDidLoad()
         for index in cardButtons.indices {
             let button = cardButtons[index]
-            if let card = game.deck.dealCard(){
+            if let card = game.availableCards.dealCard(){
+                game.addCardsToGame(card: card)
                 button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
-                //button.setTitle(card.contents(), for: UIControl.State.normal)
             }
         }
         for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
@@ -43,6 +42,7 @@ class ViewController: UIViewController {
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender){
             print(cardNumber)
+            game.addCardsToSelected(at: cardNumber)//card: game.cardsInGame.deck[cardNumber]
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
         }
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
     func updateViewFromModel(){
         for index in cardButtons.indices {
             let button = cardButtons[index]
-            let card = game.deck.deck[index]
+            let card = game.cardsInGame.deck[index]
             if card.isSelected {
                 button.select()
                 if card.isMatched {
@@ -64,6 +64,10 @@ class ViewController: UIViewController {
                     button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
                     //reformat
                     button.normalize()
+                }
+                else if card.isMisMatch {
+                    button.misMatchSelect()
+                    scoreCount = game.score
                 }
             }
             //else {if card.isMatched {} else {}}
@@ -85,7 +89,7 @@ class ViewController: UIViewController {
         scoreCount = 0
         for index in cardButtons.indices {
             let button = cardButtons[index]
-            if let card = game.deck.dealCard(){
+            if let card = game.cardsInGame.dealCard(){
                 button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
                 button.deselect()
             }
@@ -128,7 +132,6 @@ extension UIButton {
     func deselect(){
         self.backgroundColor = UIColor.systemGray6
     }
-    //func deselectAll(){}
     func normalize(){
         self.backgroundColor = UIColor.systemGray6
         self.layer.borderWidth = 0
