@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 struct Card: Hashable {
+    var pickCount = 0
     var shape : Shapes
     var shade : Shades
     var color : Colors

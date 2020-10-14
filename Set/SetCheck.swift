@@ -12,6 +12,9 @@ class SetCheck {
     func scaleMatch(a: Card, b: Card, c: Card) -> Bool {
         return (a.count < b.count) && (a.count < c.count) && (b.count < c.count)
     }
+    func scaleMisMatch(a: Card, b: Card, c: Card) -> Bool {
+        return (a.count > b.count) && (a.count > c.count) && (b.count > c.count)
+    }
     func countMatch(a: Card, b: Card, c: Card) -> Bool {
         return (a.count == b.count) && (a.count == c.count) && (b.count == c.count)
     }

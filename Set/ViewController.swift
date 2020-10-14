@@ -11,20 +11,27 @@ import UIKit
 class ViewController: UIViewController {
     
     var game = Game()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    func newGame(){
+        scoreCount = 0
         for index in cardButtons.indices {
             let button = cardButtons[index]
             if let card = game.availableCards.dealCard(){
                 game.addCardsToGame(card: card)
                 button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
+                button.deselect()
+                button.normalize()
             }
         }
         for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
             let button = cardButtons[index]
             button.isHidden = true
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        newGame()
     }
     
     var shape = Dictionary<Card, String>()
@@ -41,10 +48,12 @@ class ViewController: UIViewController {
     
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender){
-            print(cardNumber)
-            game.addCardsToSelected(at: cardNumber)//card: game.cardsInGame.deck[cardNumber]
+            game.cardsInGame.deck[cardNumber].pickCount += 1;
+            game.addCardsToSelected(at: cardNumber)
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
+            print("Index: \(cardNumber) | pickCount: \(game.cardsInGame.deck[cardNumber].pickCount)")
+            print(game.selectedCards.deck)
         }
         else {
             print("Chosen card was not in cardButtons")
@@ -56,7 +65,12 @@ class ViewController: UIViewController {
             let button = cardButtons[index]
             let card = game.cardsInGame.deck[index]
             if card.isSelected {
-                button.select()
+                if game.passedSelectedTest(card: card){
+                    button.select()
+                }
+                else {
+                    button.deselect()
+                }
                 if card.isMatched {
                     button.matchSelect()
                     scoreCount = game.score
@@ -86,18 +100,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func restart(_ sender: UIButton) {
-        scoreCount = 0
-        for index in cardButtons.indices {
-            let button = cardButtons[index]
-            if let card = game.cardsInGame.dealCard(){
-                button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
-                button.deselect()
-            }
-        }
-        for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
-            let button = cardButtons[index]
-            button.isHidden = true
-        }
+        newGame()
     }
 }
 

@@ -19,10 +19,31 @@ class Game {
         cardsInGame.deck.append(card)
     }
     
-    func addCardsToSelected(at index: Int){//card: Card
-        var card = cardsInGame.deck[index]
-        card.isSelected = true
-        selectedCards.deck.append(card)
+    func passedSelectedTest(card: Card) -> Bool {
+        var card = card
+        var passed = false;
+        if card.pickCount == 1 {
+            card.isSelected = true
+            passed = true
+        }
+        else if card.pickCount == 2 {
+            card.isSelected = false
+            passed = false
+        }
+        return passed
+    }
+    
+    func addCardsToSelected(at index: Int){
+        let card = cardsInGame.deck[index]
+        if passedSelectedTest(card: card) {
+            selectedCards.deck.append(card)
+        }
+        else {
+            cardsInGame.deck[index].pickCount = 0//why !card???
+            if !selectedCards.isEmpty(){
+                selectedCards.deck.removeLast()
+            }
+        }
     }
     
     func isSet() -> Bool {
@@ -119,6 +140,7 @@ class Game {
                 selectedCards.deck[1].isMatched = true
                 selectedCards.deck[2].isMatched = true
                 score += 3
+                selectedCards.deck.removeAll()
             }
             else if selectedCards.deck.count == 3 && !isSet(){
                 print("not set")
