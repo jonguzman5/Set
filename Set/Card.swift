@@ -11,6 +11,7 @@ import UIKit
 
 struct Card: Hashable {
     var pickCount = 0
+    var origIndex = Int()
     var shape : Shapes
     var shade : Shades
     var color : Colors

@@ -9,9 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     var game = Game()
-    
+
     func newGame(){
         scoreCount = 0
         for index in cardButtons.indices {
@@ -33,19 +33,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         newGame()
     }
-    
+
     var shape = Dictionary<Card, String>()
-    
+
     var scoreCount = 0 {
         didSet {
             scoreCountLabel.text = "Score: \(scoreCount)"
         }
     }
-    
+
     @IBOutlet weak var scoreCountLabel: UILabel!
-    
+
     @IBOutlet var cardButtons: [UIButton]!
-    
+
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender){
             game.cardsInGame.deck[cardNumber].pickCount += 1;
@@ -59,11 +59,12 @@ class ViewController: UIViewController {
             print("Chosen card was not in cardButtons")
         }
     }
-    
+
     func updateViewFromModel(){
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cardsInGame.deck[index]
+            //let selectedCard = game.selectedCards.deck[index]
             if card.isSelected {
                 if game.passedSelectedTest(card: card){
                     button.select()
@@ -71,23 +72,28 @@ class ViewController: UIViewController {
                 else {
                     button.deselect()
                 }
-                if card.isMatched {
-                    button.matchSelect()
-                    scoreCount = game.score
-                    //replace cards
-                    button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
-                    //reformat
-                    button.normalize()
-                }
-                else if card.isMisMatch {
-                    button.misMatchSelect()
-                    scoreCount = game.score
+                for i in game.selectedCards.deck.indices {
+                    //COLLECTS LAST INSERT => DO SOMETHING WITH THEM HERE
+                    //print("test: \(game.cardsInGame.deck[game.origIndex])")
+                    if game.selectedCards.deck[i].isMatched {
+                        cardButtons[game.selectedCards.deck[i].origIndex].matchSelect()
+                        scoreCount = game.score
+                        //replace cards
+                        button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
+                        //reformat
+                        button.normalize()
+                    }
+                    //else if card.isMisMatch {
+                    else if game.selectedCards.deck[i].isMisMatch {
+                        cardButtons[game.selectedCards.deck[i].origIndex].misMatchSelect()
+                        scoreCount = game.score
+                    }
                 }
             }
             //else {if card.isMatched {} else {}}
         }
     }
-    
+
     var start = 13
     @IBAction func dealCards(_ sender: UIButton) {
         if (start < cardButtons.count){
@@ -98,7 +104,7 @@ class ViewController: UIViewController {
             start += 3
         }
     }
-    
+
     @IBAction func restart(_ sender: UIButton) {
         newGame()
     }
