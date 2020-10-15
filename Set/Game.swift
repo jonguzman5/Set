@@ -53,72 +53,62 @@ class Game {
            selectedCards.deck[1] != selectedCards.deck[2],
            selectedCards.deck[0] != selectedCards.deck[1]
         {
-            if setCheck.colorMatch(
+            if
+            (
+                setCheck.colorMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-                && setCheck.shapeMatch(
+                ||
+                setCheck.colorMisMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-                && setCheck.countMatch(
+            )
+                &&
+            (
+                setCheck.shapeMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-                && setCheck.shadeMisMatch(
+                ||
+                setCheck.shapeMisMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-            {
-                isSet = true
-            }
-            else if setCheck.shapeMisMatch(
+            )
+                &&
+            (
+                setCheck.shadeMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-                && setCheck.colorMisMatch(
+                ||
+                setCheck.shadeMisMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-                && setCheck.countMisMatch(
+            )
+                &&
+            (
+                setCheck.countMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-                && setCheck.shadeMatch(
+                ||
+                setCheck.countMisMatch(
                     a: selectedCards.deck[0],
                     b: selectedCards.deck[1],
                     c: selectedCards.deck[2]
                 )
-            {
-                isSet = true
-            }
-            else if setCheck.shapeMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                && setCheck.colorMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                && setCheck.countMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                && setCheck.shadeMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
+            )
             {
                 isSet = true
             }

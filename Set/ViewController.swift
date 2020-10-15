@@ -73,24 +73,26 @@ class ViewController: UIViewController {
                     button.deselect()
                 }
                 for i in game.selectedCards.deck.indices {
-                    //COLLECTS LAST INSERT => DO SOMETHING WITH THEM HERE
-                    //print("test: \(game.cardsInGame.deck[game.origIndex])")
                     if game.selectedCards.deck[i].isMatched {
-                        cardButtons[game.selectedCards.deck[i].origIndex].matchSelect()
-                        scoreCount = game.score
-                        //replace cards
-                        button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
-                        //reformat
-                        button.normalize()
+                        if game.availableCards.deck.count > 0 {
+                            //highlight green
+                            cardButtons[game.selectedCards.deck[i].origIndex].matchSelect()
+                            //adjust score
+                            scoreCount = game.score
+                            //replace cards
+                            cardButtons[game.selectedCards.deck[i].origIndex].setAttributedTitle(game.availableCards.dealCard()?.attributedContents(), for: UIControl.State.normal)
+                            //reformat
+                            cardButtons[game.selectedCards.deck[i].origIndex].normalize()
+                        }
                     }
-                    //else if card.isMisMatch {
                     else if game.selectedCards.deck[i].isMisMatch {
+                        //highlight red
                         cardButtons[game.selectedCards.deck[i].origIndex].misMatchSelect()
+                        //adjust score
                         scoreCount = game.score
                     }
                 }
             }
-            //else {if card.isMatched {} else {}}
         }
     }
 
