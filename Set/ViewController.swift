@@ -13,17 +13,32 @@ class ViewController: UIViewController {
     var game = Game()
 
     func newGame(){
+        game = Game()//re-enables setCheckRules
         scoreCount = 0
+        game.score = 0
+        start = 13//hidden indices start
         game.availableCards = Deck()//new deck
         for index in cardButtons.indices {
             let button = cardButtons[index]
             if let card = game.availableCards.dealCard(){
+                //new gameboard
                 game.addCardsToGame(card: card)
+                //style reset
                 button.setAttributedTitle(card.attributedContents(), for: UIControl.State.normal)
                 button.deselect()
                 button.normalize()
             }
         }
+        //clear prev gameboard moves
+        for index in game.cardsInGame.deck.indices {
+                game.cardsInGame.deck[index].pickCount = 0
+            //game.cardsInGame.deck[index].origIndex = Int()
+            game.cardsInGame.deck[index].isSelected = false
+            game.cardsInGame.deck[index].isMatched = false
+            game.cardsInGame.deck[index].isMisMatch = false
+        }
+        game.selectedCards.deck.removeAll()
+        //re-hide buttons
         for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
             let button = cardButtons[index]
             button.isHidden = true
@@ -66,7 +81,6 @@ class ViewController: UIViewController {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cardsInGame.deck[index]
-            //let selectedCard = game.selectedCards.deck[index]
             if card.isSelected {
                 if game.passedSelectedTest(card: card){
                     button.select()
