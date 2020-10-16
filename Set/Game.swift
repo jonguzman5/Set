@@ -126,21 +126,17 @@ class Game {
                 print("0: \(selectedCards.deck[0])")
                 print("1: \(selectedCards.deck[1])")
                 print("2: \(selectedCards.deck[2])")
-                //cardsInGame.deck[index].isMatched = true
                 selectedCards.deck[0].isMatched = true
                 selectedCards.deck[1].isMatched = true
                 selectedCards.deck[2].isMatched = true
                 score += 3
-                //selectedCards.deck.removeAll()
             }
             else if selectedCards.deck.count == 3 && !isSet(){
                 print("not set")
-                //cardsInGame.deck[index].isMisMatch = true
                 selectedCards.deck[0].isMisMatch = true
                 selectedCards.deck[1].isMisMatch = true
                 selectedCards.deck[2].isMisMatch = true
                 score -= 5
-                //selectedCards.deck.removeAll()
             }
             cardsInGame.deck[index].isSelected = true
         }

@@ -14,6 +14,7 @@ class ViewController: UIViewController {
 
     func newGame(){
         scoreCount = 0
+        game.availableCards = Deck()//new deck
         for index in cardButtons.indices {
             let button = cardButtons[index]
             if let card = game.availableCards.dealCard(){
@@ -61,6 +62,7 @@ class ViewController: UIViewController {
     }
 
     func updateViewFromModel(){
+        var passedMatchTest = false;
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cardsInGame.deck[index]
@@ -74,23 +76,47 @@ class ViewController: UIViewController {
                 }
                 for i in game.selectedCards.deck.indices {
                     if game.selectedCards.deck[i].isMatched {
-                        if game.availableCards.deck.count > 0 {
-                            //highlight green
-                            cardButtons[game.selectedCards.deck[i].origIndex].matchSelect()
-                            //adjust score
-                            scoreCount = game.score
-                            //replace cards
-                            cardButtons[game.selectedCards.deck[i].origIndex].setAttributedTitle(game.availableCards.dealCard()?.attributedContents(), for: UIControl.State.normal)
-                            //reformat
-                            cardButtons[game.selectedCards.deck[i].origIndex].normalize()
-                        }
+                        //highlight green
+                        cardButtons[game.selectedCards.deck[i].origIndex].matchSelect()
+                        //adjust score
+                        scoreCount = game.score
+                        passedMatchTest = true
                     }
                     else if game.selectedCards.deck[i].isMisMatch {
                         //highlight red
                         cardButtons[game.selectedCards.deck[i].origIndex].misMatchSelect()
                         //adjust score
                         scoreCount = game.score
+                        passedMatchTest = false
                     }
+                }
+                if game.selectedCards.deck.count == 4 && passedMatchTest {
+                    if game.availableCards.deck.count > 0 {
+                        for i in stride(from: 0, to: 3, by: 1){
+                            //replace cards
+                            cardButtons[game.selectedCards.deck[i].origIndex].setAttributedTitle(game.availableCards.dealCard()?.attributedContents(), for: UIControl.State.normal)
+                            //reformat
+                            cardButtons[game.selectedCards.deck[i].origIndex].normalize()
+                        }
+                    }
+                    for i in game.cardsInGame.deck.indices {
+                        game.cardsInGame.deck[i].isSelected = false
+                        game.cardsInGame.deck[i].pickCount = 0
+                    }
+                    //empty arr
+                    game.selectedCards.deck.removeAll()
+                }
+                else if game.selectedCards.deck.count == 4 && !passedMatchTest {
+                    for i in stride(from: 0, to: 3, by: 1){
+                        //reformat
+                        cardButtons[game.selectedCards.deck[i].origIndex].normalize()
+                    }
+                    for i in game.cardsInGame.deck.indices {
+                        game.cardsInGame.deck[i].isSelected = false
+                        game.cardsInGame.deck[i].pickCount = 0
+                    }
+                    //empty arr
+                    game.selectedCards.deck.removeAll()
                 }
             }
         }
