@@ -11,6 +11,7 @@
 		AB2872DD251A7DB000FFD785 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2872DC251A7DB000FFD785 /* Card.swift */; };
 		AB2E649125290D230008CC19 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E649025290D230008CC19 /* Game.swift */; };
 		AB3CEE39251AB10E00DFB42B /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3CEE38251AB10E00DFB42B /* Deck.swift */; };
+		AB802101253A4B1700953436 /* SetRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB802100253A4B1700953436 /* SetRules.swift */; };
 		AB85E116251914BE00E2953A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB85E115251914BE00E2953A /* AppDelegate.swift */; };
 		AB85E118251914BE00E2953A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB85E117251914BE00E2953A /* SceneDelegate.swift */; };
 		AB85E11A251914BE00E2953A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB85E119251914BE00E2953A /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 		AB2872DC251A7DB000FFD785 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		AB2E649025290D230008CC19 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		AB3CEE38251AB10E00DFB42B /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		AB802100253A4B1700953436 /* SetRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRules.swift; sourceTree = "<group>"; };
 		AB85E112251914BE00E2953A /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB85E115251914BE00E2953A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB85E117251914BE00E2953A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				AB85E11B251914BE00E2953A /* Main.storyboard */,
 				AB85E123251914C000E2953A /* Info.plist */,
 				AB02CD922534DE5C0007BC75 /* SetCheck.swift */,
+				AB802100253A4B1700953436 /* SetRules.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -154,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB802101253A4B1700953436 /* SetRules.swift in Sources */,
 				AB3CEE39251AB10E00DFB42B /* Deck.swift in Sources */,
 				AB85E11A251914BE00E2953A /* ViewController.swift in Sources */,
 				AB2E649125290D230008CC19 /* Game.swift in Sources */,

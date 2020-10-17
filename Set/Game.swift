@@ -46,96 +46,20 @@ class Game {
             }
         }
     }
-    
-    func isSet() -> Bool {
-        var isSet = false
-        if selectedCards.deck[0] != selectedCards.deck[2],
-           selectedCards.deck[1] != selectedCards.deck[2],
-           selectedCards.deck[0] != selectedCards.deck[1]
-        {
-            if
-            (
-                setCheck.colorMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                ||
-                setCheck.colorMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-            )
-                &&
-            (
-                setCheck.shapeMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                ||
-                setCheck.shapeMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-            )
-                &&
-            (
-                setCheck.shadeMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                ||
-                setCheck.shadeMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-            )
-                &&
-            (
-                setCheck.countMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-                ||
-                setCheck.countMisMatch(
-                    a: selectedCards.deck[0],
-                    b: selectedCards.deck[1],
-                    c: selectedCards.deck[2]
-                )
-            )
-            {
-                isSet = true
-            }
-            else {
-                isSet = false
-            }
-        }
-        return isSet
-    }
 
     func chooseCard(at index: Int){
         //print("@chooseCard: \(selectedCards)")
         if !cardsInGame.deck[index].isMatched {
-            if selectedCards.deck.count == 3 && isSet() {
-                print("0: \(selectedCards.deck[0])")
-                print("1: \(selectedCards.deck[1])")
-                print("2: \(selectedCards.deck[2])")
-                selectedCards.deck[0].isMatched = true
-                selectedCards.deck[1].isMatched = true
-                selectedCards.deck[2].isMatched = true
+            if selectedCards.deck.count == 3 && setCheck.isSet(deck: selectedCards.deck) {
+                for index in selectedCards.deck.indices {
+                    selectedCards.deck[index].isMatched = true
+                }
                 score += 3
             }
-            else if selectedCards.deck.count == 3 && !isSet(){
-                print("not set")
-                selectedCards.deck[0].isMisMatch = true
-                selectedCards.deck[1].isMisMatch = true
-                selectedCards.deck[2].isMisMatch = true
+            else if selectedCards.deck.count == 3 && !setCheck.isSet(deck: selectedCards.deck) {
+                for index in selectedCards.deck.indices {
+                    selectedCards.deck[index].isMisMatch = true
+                }
                 score -= 5
             }
             cardsInGame.deck[index].isSelected = true

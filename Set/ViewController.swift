@@ -11,13 +11,21 @@ import UIKit
 class ViewController: UIViewController {
 
     var game = Game()
+    var start = 0
+    var end = 0
+    var scoreCount = 0 {
+        didSet {
+            scoreCountLabel.text = "Score: \(scoreCount)"
+        }
+    }
 
     func newGame(){
-        game = Game()//re-enables setCheckRules
+        //call game class => re-enable setCheck
+        game = Game()
         scoreCount = 0
         game.score = 0
-        start = 13//hidden indices start
-        game.availableCards = Deck()//new deck
+        //new deck
+        game.availableCards = Deck()
         for index in cardButtons.indices {
             let button = cardButtons[index]
             if let card = game.availableCards.dealCard(){
@@ -30,19 +38,9 @@ class ViewController: UIViewController {
             }
         }
         //clear prev gameboard moves
-        for index in game.cardsInGame.deck.indices {
-                game.cardsInGame.deck[index].pickCount = 0
-            //game.cardsInGame.deck[index].origIndex = Int()
-            game.cardsInGame.deck[index].isSelected = false
-            game.cardsInGame.deck[index].isMatched = false
-            game.cardsInGame.deck[index].isMisMatch = false
-        }
-        game.selectedCards.deck.removeAll()
+        resetMoves()
         //re-hide buttons
-        for index in stride(from: (cardButtons.count + 1)/2, to: cardButtons.count, by: 1){
-            let button = cardButtons[index]
-            button.isHidden = true
-        }
+        hideCards()
     }
 
     override func viewDidLoad() {
@@ -50,18 +48,35 @@ class ViewController: UIViewController {
         newGame()
     }
 
-    var shape = Dictionary<Card, String>()
-
-    var scoreCount = 0 {
-        didSet {
-            scoreCountLabel.text = "Score: \(scoreCount)"
-        }
-    }
-
     @IBOutlet weak var scoreCountLabel: UILabel!
-
     @IBOutlet var cardButtons: [UIButton]!
 
+    func resetMoves(){
+        for index in game.cardsInGame.deck.indices {
+            game.cardsInGame.deck[index].isSelected = false
+            game.cardsInGame.deck[index].pickCount = 0
+            game.cardsInGame.deck[index].isMatched = false
+        }
+        game.selectedCards.deck.removeAll()
+    }
+    func hideCards(){
+        start = (cardButtons.count + 1)/2
+        end = cardButtons.count
+        for index in stride(from: start, to: end, by: 1){
+            let button = cardButtons[index]
+            button.isHidden = true
+        }
+    }
+    func showCards(){
+        if (start < end){
+            for index in stride(from: start, to: start + 3, by: 1){
+                let button = cardButtons[index]
+                button.isHidden = false
+            }
+            start += 3
+        }
+    }
+    
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender){
             game.cardsInGame.deck[cardNumber].pickCount += 1;
@@ -88,17 +103,17 @@ class ViewController: UIViewController {
                 else {
                     button.deselect()
                 }
-                for i in game.selectedCards.deck.indices {
-                    if game.selectedCards.deck[i].isMatched {
+                for index in game.selectedCards.deck.indices {
+                    if game.selectedCards.deck[index].isMatched {
                         //highlight green
-                        cardButtons[game.selectedCards.deck[i].origIndex].matchSelect()
+                        cardButtons[game.selectedCards.deck[index].origIndex].matchSelect()
                         //adjust score
                         scoreCount = game.score
                         passedMatchTest = true
                     }
-                    else if game.selectedCards.deck[i].isMisMatch {
+                    else if game.selectedCards.deck[index].isMisMatch {
                         //highlight red
-                        cardButtons[game.selectedCards.deck[i].origIndex].misMatchSelect()
+                        cardButtons[game.selectedCards.deck[index].origIndex].misMatchSelect()
                         //adjust score
                         scoreCount = game.score
                         passedMatchTest = false
@@ -106,50 +121,34 @@ class ViewController: UIViewController {
                 }
                 if game.selectedCards.deck.count == 4 && passedMatchTest {
                     if game.availableCards.deck.count > 0 {
-                        for i in stride(from: 0, to: 3, by: 1){
+                        for index in stride(from: 0, to: 3, by: 1){
                             //replace cards
-                            cardButtons[game.selectedCards.deck[i].origIndex].setAttributedTitle(game.availableCards.dealCard()?.attributedContents(), for: UIControl.State.normal)
+                            cardButtons[game.selectedCards.deck[index].origIndex].setAttributedTitle(game.availableCards.dealCard()?.attributedContents(), for: UIControl.State.normal)
                             //reformat
-                            cardButtons[game.selectedCards.deck[i].origIndex].normalize()
+                            cardButtons[game.selectedCards.deck[index].origIndex].normalize()
                         }
                     }
-                    for i in game.cardsInGame.deck.indices {
-                        game.cardsInGame.deck[i].isSelected = false
-                        game.cardsInGame.deck[i].pickCount = 0
-                    }
-                    //empty arr
-                    game.selectedCards.deck.removeAll()
+                    resetMoves()
                 }
                 else if game.selectedCards.deck.count == 4 && !passedMatchTest {
-                    for i in stride(from: 0, to: 3, by: 1){
+                    for index in stride(from: 0, to: 3, by: 1){
                         //reformat
-                        cardButtons[game.selectedCards.deck[i].origIndex].normalize()
+                        cardButtons[game.selectedCards.deck[index].origIndex].normalize()
                     }
-                    for i in game.cardsInGame.deck.indices {
-                        game.cardsInGame.deck[i].isSelected = false
-                        game.cardsInGame.deck[i].pickCount = 0
-                    }
-                    //empty arr
-                    game.selectedCards.deck.removeAll()
+                    resetMoves()
                 }
             }
         }
     }
 
-    var start = 13
     @IBAction func dealCards(_ sender: UIButton) {
-        if (start < cardButtons.count){
-            for index in stride(from: start, to: start + 3, by: 1){
-                let button = cardButtons[index]
-                button.isHidden = false
-            }
-            start += 3
-        }
+        showCards()
     }
 
     @IBAction func restart(_ sender: UIButton) {
         newGame()
     }
+    
 }
 
 extension Int {

@@ -9,34 +9,77 @@
 import Foundation
 
 class SetCheck {
-    func scaleMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.count < b.count) && (a.count < c.count) && (b.count < c.count)
+    var setRules = SetRules()
+    func isSet(deck: [Card]) -> Bool {
+        var isSet = false
+        if deck[0] != deck[2],
+           deck[1] != deck[2],
+           deck[0] != deck[1]
+        {
+            if
+            (
+                setRules.colorMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+                ||
+                setRules.colorMisMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+            )
+                &&
+            (
+                setRules.shapeMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+                ||
+                setRules.shapeMisMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+            )
+                &&
+            (
+                setRules.shadeMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+                ||
+                setRules.shadeMisMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+            )
+                &&
+            (
+                setRules.countMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+                ||
+                setRules.countMisMatch(
+                    a: deck[0],
+                    b: deck[1],
+                    c: deck[2]
+                )
+            )
+            {
+                isSet = true
+            }
+            else {
+                isSet = false
+            }
+        }
+        return isSet
     }
-    func scaleMisMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.count > b.count) && (a.count > c.count) && (b.count > c.count)
-    }
-    func countMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.count == b.count) && (a.count == c.count) && (b.count == c.count)
-    }
-    func countMisMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.count != b.count) && (a.count != c.count) && (b.count != c.count)
-    }
-    func colorMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.color == b.color) && (a.color == c.color) && (b.color == c.color)
-    }
-    func colorMisMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.color != b.color) && (a.color != c.color) && (b.color != c.color)
-    }
-    func shadeMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.shade == b.shade) && (a.shade == c.shade) && (b.shade == c.shade)
-    }
-    func shadeMisMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.shade != b.shade) && (a.shade != c.shade) && (b.shade != c.shade)
-    }
-    func shapeMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.shape == b.shape) && (a.shape == c.shape) && (b.shape == c.shape)
-    }
-    func shapeMisMatch(a: Card, b: Card, c: Card) -> Bool {
-        return (a.shape != b.shape) && (a.shape != c.shape) && (b.shape != c.shape)
-    }
+
 }
