@@ -6,37 +6,45 @@
 //  Copyright © 2020 ジョナサン. All rights reserved.
 //
 
+/*
+Set Rules:
+(colors match OR colors mismatch) AND
+(shapes match OR shapes mismatch) AND
+(shades match OR shades mismatch) AND
+(count match OR count mismatch)
+ */
+
 import Foundation
 
 class SetRules {
-    func scaleMatch(a: Card, b: Card, c: Card) -> Bool {
+    func scaleMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.count < b.count) && (a.count < c.count) && (b.count < c.count)
     }
-    func scaleMisMatch(a: Card, b: Card, c: Card) -> Bool {
+    func scaleMisMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.count > b.count) && (a.count > c.count) && (b.count > c.count)
     }
-    func countMatch(a: Card, b: Card, c: Card) -> Bool {
+    func countMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.count == b.count) && (a.count == c.count) && (b.count == c.count)
     }
-    func countMisMatch(a: Card, b: Card, c: Card) -> Bool {
+    func countMisMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.count != b.count) && (a.count != c.count) && (b.count != c.count)
     }
-    func colorMatch(a: Card, b: Card, c: Card) -> Bool {
+    func colorMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.color == b.color) && (a.color == c.color) && (b.color == c.color)
     }
-    func colorMisMatch(a: Card, b: Card, c: Card) -> Bool {
+    func colorMisMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.color != b.color) && (a.color != c.color) && (b.color != c.color)
     }
-    func shadeMatch(a: Card, b: Card, c: Card) -> Bool {
+    func shadeMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.shade == b.shade) && (a.shade == c.shade) && (b.shade == c.shade)
     }
-    func shadeMisMatch(a: Card, b: Card, c: Card) -> Bool {
+    func shadeMisMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.shade != b.shade) && (a.shade != c.shade) && (b.shade != c.shade)
     }
-    func shapeMatch(a: Card, b: Card, c: Card) -> Bool {
+    func shapeMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.shape == b.shape) && (a.shape == c.shape) && (b.shape == c.shape)
     }
-    func shapeMisMatch(a: Card, b: Card, c: Card) -> Bool {
+    func shapeMisMatch(a: CardView, b: CardView, c: CardView) -> Bool {
         return (a.shape != b.shape) && (a.shape != c.shape) && (b.shape != c.shape)
     }
 

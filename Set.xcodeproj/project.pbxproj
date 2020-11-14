@@ -17,6 +17,10 @@
 		AB85E11A251914BE00E2953A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB85E119251914BE00E2953A /* ViewController.swift */; };
 		AB85E11D251914BE00E2953A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB85E11B251914BE00E2953A /* Main.storyboard */; };
 		AB85E11F251914C000E2953A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB85E11E251914C000E2953A /* Assets.xcassets */; };
+		ABB3794A253B7DAD0021A192 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB37949253B7DAD0021A192 /* Grid.swift */; };
+		ABB3794C253B929D0021A192 /* attr_str.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB3794B253B929D0021A192 /* attr_str.storyboard */; };
+		ABB3794E253B99370021A192 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3794D253B99370021A192 /* CardView.swift */; };
+		ABB37950253B99540021A192 /* DeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3794F253B99540021A192 /* DeckView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +36,10 @@
 		AB85E11C251914BE00E2953A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AB85E11E251914C000E2953A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB85E123251914C000E2953A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ABB37949253B7DAD0021A192 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		ABB3794B253B929D0021A192 /* attr_str.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = attr_str.storyboard; sourceTree = "<group>"; };
+		ABB3794D253B99370021A192 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		ABB3794F253B99540021A192 /* DeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,9 +76,12 @@
 				AB2872DC251A7DB000FFD785 /* Card.swift */,
 				AB3CEE38251AB10E00DFB42B /* Deck.swift */,
 				AB2E649025290D230008CC19 /* Game.swift */,
+				ABB3794D253B99370021A192 /* CardView.swift */,
+				ABB3794F253B99540021A192 /* DeckView.swift */,
 				AB85E119251914BE00E2953A /* ViewController.swift */,
 				AB85E11B251914BE00E2953A /* Main.storyboard */,
 				AB85E123251914C000E2953A /* Info.plist */,
+				ABB37949253B7DAD0021A192 /* Grid.swift */,
 				AB02CD922534DE5C0007BC75 /* SetCheck.swift */,
 				AB802100253A4B1700953436 /* SetRules.swift */,
 			);
@@ -80,6 +91,7 @@
 		AB85E1292519151A00E2953A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ABB3794B253B929D0021A192 /* attr_str.storyboard */,
 				AB85E115251914BE00E2953A /* AppDelegate.swift */,
 				AB85E117251914BE00E2953A /* SceneDelegate.swift */,
 				AB85E11E251914C000E2953A /* Assets.xcassets */,
@@ -146,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB85E11F251914C000E2953A /* Assets.xcassets in Resources */,
+				ABB3794C253B929D0021A192 /* attr_str.storyboard in Resources */,
 				AB85E11D251914BE00E2953A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,10 +174,13 @@
 				AB3CEE39251AB10E00DFB42B /* Deck.swift in Sources */,
 				AB85E11A251914BE00E2953A /* ViewController.swift in Sources */,
 				AB2E649125290D230008CC19 /* Game.swift in Sources */,
+				ABB3794E253B99370021A192 /* CardView.swift in Sources */,
 				AB2872DD251A7DB000FFD785 /* Card.swift in Sources */,
 				AB02CD932534DE5C0007BC75 /* SetCheck.swift in Sources */,
 				AB85E116251914BE00E2953A /* AppDelegate.swift in Sources */,
 				AB85E118251914BE00E2953A /* SceneDelegate.swift in Sources */,
+				ABB3794A253B7DAD0021A192 /* Grid.swift in Sources */,
+				ABB37950253B99540021A192 /* DeckView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

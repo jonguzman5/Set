@@ -10,7 +10,7 @@ import Foundation
 
 class SetCheck {
     var setRules = SetRules()
-    func isSet(deck: [Card]) -> Bool {
+    func isSet(deck: [CardView]) -> Bool {
         var isSet = false
         if deck[0] != deck[2],
            deck[1] != deck[2],

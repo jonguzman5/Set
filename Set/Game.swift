@@ -9,18 +9,24 @@
 import Foundation
 
 class Game {
+    var deckView = DeckView()
     var setCheck = SetCheck()
+    
     var availableCards = Deck()//81
     var cardsInGame = Deck()//24
-    var selectedCards = Deck()//3
+    var selectedCards = [CardView]()//3
     var score = 0;
     
-    func addCardsToGame(card: Card){
-        cardsInGame.deck.append(card)
+    func getCards(noOfCards: Int) -> [Card]{
+        var cards = [Card]()
+        for _ in 0..<noOfCards {
+            let card = availableCards.dealCard()!
+            cards.append(card)
+        }
+        return cards
     }
     
-    func passedSelectedTest(card: Card) -> Bool {
-        var card = card
+    func passedSelectedTest(card: CardView) -> Bool {
         var passed = false;
         if card.pickCount == 1 {
             card.isSelected = true
@@ -33,41 +39,41 @@ class Game {
         return passed
     }
     
-    func addCardsToSelected(at index: Int){
-        var card = cardsInGame.deck[index]
-        card.origIndex = index
+    func addCardsToSelected(card: CardView, origIndex: Int){
+        card.origIndex = origIndex
+        print("ORIG_INDEX: \(card.origIndex)")
         if passedSelectedTest(card: card) {
-            selectedCards.deck.append(card)
+            selectedCards.append(card)
         }
         else {
-            cardsInGame.deck[index].pickCount = 0//why !card???
-            if !selectedCards.isEmpty(){
-                selectedCards.deck.removeLast()
+            card.pickCount = 0
+            if !selectedCards.isEmpty{
+                selectedCards.removeLast()
             }
         }
     }
 
-    func chooseCard(at index: Int){
+    func chooseCard(card: CardView){
         //print("@chooseCard: \(selectedCards)")
-        if !cardsInGame.deck[index].isMatched {
-            if selectedCards.deck.count == 3 && setCheck.isSet(deck: selectedCards.deck) {
-                for index in selectedCards.deck.indices {
-                    selectedCards.deck[index].isMatched = true
+        //if !cardsInGame.deck[index].isMatched {
+            if selectedCards.count == 3 && setCheck.isSet(deck: selectedCards) {
+                for index in selectedCards.indices {
+                    selectedCards[index].isMatched = true
                 }
                 score += 3
             }
-            else if selectedCards.deck.count == 3 && !setCheck.isSet(deck: selectedCards.deck) {
-                for index in selectedCards.deck.indices {
-                    selectedCards.deck[index].isMisMatch = true
+            else if selectedCards.count == 3 && !setCheck.isSet(deck: selectedCards) {
+                for index in selectedCards.indices {
+                    selectedCards[index].isMisMatched = true
                 }
                 score -= 5
             }
-            cardsInGame.deck[index].isSelected = true
-        }
+            //cardsInGame.deck[index].isSelected = true
+        //}
     }
     
     init(){
         cardsInGame.deck.removeAll()
-        selectedCards.deck.removeAll()
+        selectedCards.removeAll()
     }
 }
