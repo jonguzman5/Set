@@ -38,6 +38,12 @@ import UIKit
             setNeedsLayout()
         }
     }
+    @IBInspectable var isFaceUp: Bool = false {
+        didSet {
+            setNeedsDisplay()
+            setNeedsLayout()
+        }
+    }
     @IBInspectable var isSelected: Bool = false {
         didSet {
             setNeedsDisplay()
@@ -119,16 +125,24 @@ import UIKit
         roundedRect.fill()
         roundedRect.stroke()
         
-        let path = UIBezierPath()
-        switch shape {
-            case .squiggle:
-                path.append(drawSquiggle())
-            case .oval:
-                path.append(drawOval())
-            case .diamond:
-                path.append(drawDiamond())
+        if isFaceUp {
+            let path = UIBezierPath()
+            switch shape {
+                case .squiggle:
+                    path.append(drawSquiggle())
+                case .oval:
+                    path.append(drawOval())
+                case .diamond:
+                    path.append(drawDiamond())
+            }
+            showPath(path)
         }
-        showPath(path)
+        else {
+            if let cardBackImage = UIImage(named: "cardback", in: Bundle(for: self.classForCoder), compatibleWith: traitCollection){
+                cardBackImage.draw(in: bounds)
+            }
+        }
+        
     }
     
     private func showPath(_ path: UIBezierPath) {

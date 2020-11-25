@@ -26,7 +26,7 @@ class Game {
         return cards
     }
     
-    func passedSelectedTest(card: CardView) -> Bool {
+    func passedSelectedTest(_ card: CardView) -> Bool {
         var passed = false;
         if card.pickCount == 1 {
             card.isSelected = true
@@ -39,10 +39,10 @@ class Game {
         return passed
     }
     
-    func addCardsToSelected(card: CardView, origIndex: Int){
+    func addCardsToSelected(_ card: CardView, _ origIndex: Int){
         card.origIndex = origIndex
         print("ORIG_INDEX: \(card.origIndex)")
-        if passedSelectedTest(card: card) {
+        if passedSelectedTest(card) {
             selectedCards.append(card)
         }
         else {
@@ -53,7 +53,7 @@ class Game {
         }
     }
 
-    func chooseCard(card: CardView){
+    func chooseCard(_ card: CardView){
         //print("@chooseCard: \(selectedCards)")
         //if !cardsInGame.deck[index].isMatched {
             if selectedCards.count == 3 && setCheck.isSet(deck: selectedCards) {

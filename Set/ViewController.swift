@@ -46,28 +46,42 @@ class ViewController: UIViewController {
         //new deck
         game.availableCards = Deck()
         //new gameboard
-        addCardsToGame(noOfCards: 12)
+        let initialCards = getCardViews(noOfCards: 12)
+        addCardsToGame(initialCards)
+        deckView.animationHasBeenShown = false
         //clear prev gameboard moves
         resetMoves()
     }
 
     override func viewDidLoad() {
         newGame()
+        deckButtonIn.setCardBack()
+        deckButtonOut.setCardBack()
+        dealCardsButton.setBorder()
+        newGameButton.setBorder()
         super.viewDidLoad()
     }
+    
 
     @IBOutlet weak var scoreCountLabel: UILabel!
     
-    func addCardsToGame(noOfCards: Int){
+    func getCardViews(noOfCards: Int) -> [CardView] {
+        var cardViews = [CardView]()
         let cards = game.getCards(noOfCards: noOfCards)
         game.cardsInGame.deck.append(contentsOf: cards)
-        
         for index in 0..<noOfCards {
             cardView = CardView()
             cardView.shape = cards[index].shape
             cardView.shade = cards[index].shade
             cardView.color = cards[index].color
             cardView.count = cards[index].count
+            cardViews.append(cardView)
+        }
+        return cardViews
+    }
+    
+    func addCardsToGame(_ cardViews: [CardView]){
+        for cardView in cardViews {
             deckView.addSubview(cardView)
         }
     }
@@ -87,8 +101,8 @@ class ViewController: UIViewController {
         if let cardNumber = cardButtons.firstIndex(of: card){
             //print(cardNumber)
             card.pickCount += 1;
-            game.addCardsToSelected(card: card, origIndex: cardNumber)
-            game.chooseCard(card: card)
+            game.addCardsToSelected(card, cardNumber)
+            game.chooseCard(card)
             updateViewFromModel()
             print("Index: \(cardNumber) | pickCount: \(cardButtons[cardNumber].pickCount)")
             print(game.selectedCards)
@@ -99,13 +113,13 @@ class ViewController: UIViewController {
     }
 
     func updateViewFromModel(){
-        
         var passedMatchTest = false;
         for index in cardButtons.indices {
             let card = cardButtons[index]
             if card.isSelected {
-                if game.passedSelectedTest(card: card){
+                if game.passedSelectedTest(card){
                     card.select()
+                    card.transform = CGAffineTransform(scaleX: 2, y: 2)
                 }
                 else {
                     card.deselect()
@@ -127,15 +141,53 @@ class ViewController: UIViewController {
                     }
                 }
                 if game.selectedCards.count == 4 && passedMatchTest {
-                    //if game.availableCards.deck.count > 0 {
+                    if game.availableCards.deck.count > 0 {
                         for index in stride(from: 0, to: 3, by: 1){
-                            //replace cards
-                            //cardButtons[game.selectedCards[index].origIndex].count = 3
-                            [cardButtons[game.selectedCards[index].origIndex]]
-                            //reformat
-                            cardButtons[game.selectedCards[index].origIndex].unMatchSelect()
+                            let selectedCards = cardButtons[game.selectedCards[index].origIndex]
+                            let dealtCards = getCardViews(noOfCards: 3)
+                            UIViewPropertyAnimator.runningPropertyAnimator(
+                                     withDuration: 0.75,
+                                     delay: 0,
+                                     options: [.curveEaseOut],
+                                     animations: {
+                                        selectedCards.layer.zPosition = 1
+                                        selectedCards.frame.origin.x = selectedCards.frame.size.width
+                                        selectedCards.frame.origin.y = selectedCards.frame.size.height
+                                        //selectedCards.alpha = 0
+                                    },
+                                     completion: { finished in
+                                        UIView.transition(
+                                            with: selectedCards,
+                                            duration: 0.6,
+                                            options: .transitionFlipFromLeft,
+                                            animations: {
+                                                selectedCards.isFaceUp = false
+                                            },
+                                            completion: { finished in
+                                                UIView.transition(
+                                                    with: selectedCards,
+                                                    duration: 0.6,
+                                                    options: .transitionFlipFromLeft,
+                                                    animations: {
+                                                        //selectedCards.alpha = 1
+                                                        //replace cards
+                                                        for index in 0..<dealtCards.count {
+                                                            selectedCards.shape = dealtCards[index].shape
+                                                            selectedCards.shade = dealtCards[index].shade
+                                                            selectedCards.color = dealtCards[index].color
+                                                            selectedCards.count = dealtCards[index].count
+                                                            selectedCards.isFaceUp = true
+                                                        }
+                                                        //reformat
+                                                        selectedCards.unMatchSelect()
+                                                    }
+                                                )
+                                            }
+                                        )
+                                    }
+                            )
                         }
-                    //}
+                    }
                     resetMoves()
                 }
                 else if game.selectedCards.count == 4 && !passedMatchTest {
@@ -147,13 +199,34 @@ class ViewController: UIViewController {
                 }
             }
         }
-        
     }
     
-
+    func flipBackOver(cards: [CardView]){
+        for index in cards.indices {
+            let card = cards[index]
+            UIView.transition(
+                with: card,
+                duration: 1,
+                options: .transitionFlipFromLeft,
+                animations: {
+                    //card.isFaceUp = !card.isFaceUp
+                    card.isFaceUp = false
+                }
+            )
+        }
+    }
+    
+    @IBOutlet weak var deckButtonIn: UIButton!
+    @IBOutlet weak var deckButtonOut: UIButton!
+    @IBOutlet weak var dealCardsButton: UIButton!
+    @IBOutlet weak var newGameButton: UIButton!
+    
     @IBAction func dealCards(_ sender: UIButton) {
+        deckView.animationHasBeenShown = false
         if game.availableCards.deck.count > 0 && game.cardsInGame.deck.count < 81 {
-            addCardsToGame(noOfCards: 3)
+            let dealtCards = getCardViews(noOfCards: 3)
+            addCardsToGame(dealtCards)
+            flipBackOver(cards: cardButtons)
         }
     }
 
@@ -191,30 +264,14 @@ extension CardView {
 }
 
 @IBDesignable extension UIButton {
-    @IBInspectable var borderWidth: CGFloat {
-        set {
-            layer.borderWidth = newValue
-        }
-        get {
-            return layer.borderWidth
-        }
+    func setCardBack(){
+        let image = UIImage(named: "cardback.png")
+        self.setBackgroundImage(image, for: UIControl.State.normal)
+        self.layer.cornerRadius = 16.0
     }
-    @IBInspectable var cornerRadius: CGFloat {
-        set {
-            layer.cornerRadius = newValue
-        }
-        get {
-            return layer.cornerRadius
-        }
-    }
-    @IBInspectable var borderColor: UIColor? {
-        set {
-            guard let uiColor = newValue else { return }
-            layer.borderColor = uiColor.cgColor
-        }
-        get {
-            guard let color = layer.borderColor else { return nil }
-            return UIColor(cgColor: color)
-        }
+    func setBorder(){
+        self.layer.borderWidth = 3.0
+        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.cornerRadius = 3.0
     }
 }
